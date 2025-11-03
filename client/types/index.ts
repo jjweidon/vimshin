@@ -4,6 +4,16 @@ export type VimMode = 'normal' | 'insert' | 'visual' | 'command';
 // 학습 레벨 타입
 export type LearningLevel = 1 | 2 | 3 | 4;
 
+// 프로그래밍 언어 타입
+export type ProgrammingLanguage = 'c' | 'cpp' | 'python' | 'java' | 'javascript';
+
+// 코드 예제 타입
+export interface CodeExample {
+  language: ProgrammingLanguage;
+  code: string;
+  description?: string;
+}
+
 // 사용자 진행도 타입
 export interface UserProgress {
   userId: string;
@@ -36,6 +46,7 @@ export interface Lesson {
   objectives: string[];
   commands: Command[];
   practice: Practice;
+  codeExamples?: CodeExample[];
 }
 
 // 명령어 타입

@@ -1,5 +1,18 @@
 import { Lesson } from '@/types';
 
+// 코드 예제 import
+import { code as level1C } from './code-examples/level-1-motion/c';
+import { code as level1Cpp } from './code-examples/level-1-motion/cpp';
+import { code as level1Python } from './code-examples/level-1-motion/python';
+import { code as level1Java } from './code-examples/level-1-motion/java';
+import { code as level1JavaScript } from './code-examples/level-1-motion/javascript';
+
+import { code as level2C } from './code-examples/level-2-insert/c';
+import { code as level2Cpp } from './code-examples/level-2-insert/cpp';
+import { code as level2Python } from './code-examples/level-2-insert/python';
+import { code as level2Java } from './code-examples/level-2-insert/java';
+import { code as level2JavaScript } from './code-examples/level-2-insert/javascript';
+
 // 레벨별 학습 레슨 데이터
 export const LESSONS: Lesson[] = [
   {
@@ -43,6 +56,33 @@ export const LESSONS: Lesson[] = [
       initialText: 'Start here\n\nMove to X\n\nGood luck!',
       expectedActions: ['j', 'j', 'l', 'l', 'l', 'l', 'l', 'l', 'l', 'l'],
     },
+    codeExamples: [
+      {
+        language: 'c',
+        code: level1C,
+        description: 'C 언어로 학생 성적 관리 프로그램',
+      },
+      {
+        language: 'cpp',
+        code: level1Cpp,
+        description: 'C++ 언어로 학생 성적 관리 프로그램',
+      },
+      {
+        language: 'python',
+        code: level1Python,
+        description: '파이썬으로 학생 성적 관리 프로그램',
+      },
+      {
+        language: 'java',
+        code: level1Java,
+        description: '자바로 학생 성적 관리 프로그램',
+      },
+      {
+        language: 'javascript',
+        code: level1JavaScript,
+        description: '자바스크립트로 학생 성적 관리 프로그램',
+      },
+    ],
   },
   {
     id: 'level-2-insert',
@@ -79,6 +119,33 @@ export const LESSONS: Lesson[] = [
       initialText: '',
       expectedActions: ['i', 'H', 'e', 'l', 'l', 'o', '<Esc>'],
     },
+    codeExamples: [
+      {
+        language: 'c',
+        code: level2C,
+        description: 'C 언어로 도서 관리 시스템',
+      },
+      {
+        language: 'cpp',
+        code: level2Cpp,
+        description: 'C++ 언어로 도서 관리 시스템',
+      },
+      {
+        language: 'python',
+        code: level2Python,
+        description: '파이썬으로 도서 관리 시스템',
+      },
+      {
+        language: 'java',
+        code: level2Java,
+        description: '자바로 도서 관리 시스템',
+      },
+      {
+        language: 'javascript',
+        code: level2JavaScript,
+        description: '자바스크립트로 도서 관리 시스템',
+      },
+    ],
   },
 ];
 

@@ -7,12 +7,46 @@ import '@xterm/xterm/css/xterm.css';
 import { useVimStore } from '@/stores/useVimStore';
 import { THEME } from '@/constants/theme';
 
-export function VimTerminal() {
+interface VimTerminalProps {
+  initialCode?: string;
+}
+
+export function VimTerminal({ initialCode = '' }: VimTerminalProps) {
   const terminalRef = useRef<HTMLDivElement>(null);
   const xtermRef = useRef<Terminal | null>(null);
   const fitAddonRef = useRef<FitAddon | null>(null);
+  const initialCodeRef = useRef<string>(initialCode);
+  const isInitializedRef = useRef<boolean>(false);
 
   const { mode, setMode, commandBuffer, setCommandBuffer, addMessage } = useVimStore();
+
+  // initialCode 변경 감지 및 터미널 업데이트
+  useEffect(() => {
+    if (initialCode !== initialCodeRef.current && isInitializedRef.current && xtermRef.current) {
+      initialCodeRef.current = initialCode;
+      const terminal = xtermRef.current;
+      terminal.clear();
+      
+      if (initialCode) {
+        // 코드를 줄 단위로 표시
+        const lines = initialCode.split('\n');
+        lines.forEach((line) => {
+          terminal.writeln(line);
+        });
+        terminal.writeln('');
+      } else {
+        // Welcome 메시지 표시
+        terminal.writeln('\x1b[1;36m╔════════════════════════════════════════╗\x1b[0m');
+        terminal.writeln('\x1b[1;36m║                                        ║\x1b[0m');
+        terminal.writeln('\x1b[1;36m║\x1b[0m        \x1b[1;32mWelcome to vimshin! 🚀\x1b[0m         \x1b[1;36m║\x1b[0m');
+        terminal.writeln('\x1b[1;36m║                                        ║\x1b[0m');
+        terminal.writeln('\x1b[1;36m╚════════════════════════════════════════╝\x1b[0m');
+        terminal.writeln('');
+        terminal.writeln('Type \x1b[1;33m:help\x1b[0m for instructions, or press \x1b[1;33mi\x1b[0m to start learning.');
+        terminal.writeln('');
+      }
+    }
+  }, [initialCode]);
 
   useEffect(() => {
     if (!terminalRef.current) return;
@@ -41,16 +75,27 @@ export function VimTerminal() {
 
     xtermRef.current = terminal;
     fitAddonRef.current = fitAddon;
+    initialCodeRef.current = initialCode;
 
-    // Welcome 메시지
-    terminal.writeln('\x1b[1;36m╔════════════════════════════════════════╗\x1b[0m');
-    terminal.writeln('\x1b[1;36m║                                        ║\x1b[0m');
-    terminal.writeln('\x1b[1;36m║\x1b[0m        \x1b[1;32mWelcome to vimshin! 🚀\x1b[0m         \x1b[1;36m║\x1b[0m');
-    terminal.writeln('\x1b[1;36m║                                        ║\x1b[0m');
-    terminal.writeln('\x1b[1;36m╚════════════════════════════════════════╝\x1b[0m');
-    terminal.writeln('');
-    terminal.writeln('Type \x1b[1;33m:help\x1b[0m for instructions, or press \x1b[1;33mi\x1b[0m to start learning.');
-    terminal.writeln('');
+    // 초기 코드 또는 Welcome 메시지 표시
+    if (initialCode) {
+      const lines = initialCode.split('\n');
+      lines.forEach((line) => {
+        terminal.writeln(line);
+      });
+      terminal.writeln('');
+    } else {
+      terminal.writeln('\x1b[1;36m╔════════════════════════════════════════╗\x1b[0m');
+      terminal.writeln('\x1b[1;36m║                                        ║\x1b[0m');
+      terminal.writeln('\x1b[1;36m║\x1b[0m        \x1b[1;32mWelcome to vimshin! 🚀\x1b[0m         \x1b[1;36m║\x1b[0m');
+      terminal.writeln('\x1b[1;36m║                                        ║\x1b[0m');
+      terminal.writeln('\x1b[1;36m╚════════════════════════════════════════╝\x1b[0m');
+      terminal.writeln('');
+      terminal.writeln('Type \x1b[1;33m:help\x1b[0m for instructions, or press \x1b[1;33mi\x1b[0m to start learning.');
+      terminal.writeln('');
+    }
+
+    isInitializedRef.current = true;
 
     // 키 입력 처리
     terminal.onData((data) => {
